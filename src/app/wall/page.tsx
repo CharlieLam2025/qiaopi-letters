@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { THEMES, type Letter, type LetterTheme } from "@/lib/types";
+import { THEMES, defaultSignature, type Letter, type LetterTheme } from "@/lib/types";
 import { loadPublicLetters } from "@/lib/wallApi";
+import { toHistoricalPlace } from "@/lib/historicalNames";
 import RedSeal from "@/components/RedSeal";
 import Pushpin from "@/components/decorations/Pushpin";
 
@@ -190,10 +191,16 @@ function Card({ letter, onClick }: { letter: Letter; onClick: () => void }) {
           {letter.body}
         </p>
 
-        {/* 寄出地 */}
-        <div className="mt-4 pt-3 border-t border-ink-300/20 text-ink-300 text-xs tracking-widest flex justify-between">
-          <span>寄自 · {letter.from}</span>
-          <span>→ {letter.destination}</span>
+        {/* 落款 */}
+        <div className="mt-4 text-right font-serif text-ink-500 text-sm tracking-wider">
+          {(letter.signature && letter.signature.trim()) ||
+            defaultSignature({ tone: letter.tone, to: letter.to })}
+        </div>
+
+        {/* 寄出地（用历史名）*/}
+        <div className="mt-3 pt-3 border-t border-ink-300/20 text-ink-300 text-xs tracking-widest flex justify-between">
+          <span>寄自 · {toHistoricalPlace(letter.from)}</span>
+          <span>→ {toHistoricalPlace(letter.destination)}</span>
         </div>
 
         {/* 装饰小印 */}
@@ -246,10 +253,10 @@ function LetterModal({ letter, onClose }: { letter: Letter; onClose: () => void 
           <div className="flex justify-between items-start mb-6">
             <div>
               <div className="text-ink-300 text-xs tracking-widest mb-1">
-                寄自 · {letter.from}
+                寄自 · {toHistoricalPlace(letter.from)}
               </div>
               <div className="text-ink-300 text-xs tracking-widest">
-                发往 · {letter.destination}
+                发往 · {toHistoricalPlace(letter.destination)}
               </div>
             </div>
             <span className="text-seal-500 text-xs tracking-widest font-serif">
@@ -265,8 +272,16 @@ function LetterModal({ letter, onClose }: { letter: Letter; onClose: () => void 
             {letter.body}
           </div>
 
-          <div className="mt-8 text-right text-ink-400 text-sm leading-loose">
-            {dateStr}
+          {/* 落款署名 */}
+          <div className="mt-8 text-right">
+            <div className="font-serif text-ink-500 text-lg tracking-wider mb-1">
+              {(letter.signature && letter.signature.trim()) ||
+                defaultSignature({ tone: letter.tone, to: letter.to })}
+            </div>
+            <div className="text-ink-400 text-sm leading-loose">
+              于 {toHistoricalPlace(letter.from || "远方")}
+            </div>
+            <div className="text-ink-400 text-sm leading-loose">{dateStr}</div>
           </div>
 
           <div className="absolute -top-3 -right-3">
@@ -289,7 +304,9 @@ function EmptyState({ filter }: { filter: Filter }) {
   return (
     <div className="text-center py-16">
       <p className="text-ink-400 text-base leading-loose">
-        这一类还没有人写过{filter !== "全部" ? `（${filter}）` : ""}。
+        {filter === "全部"
+          ? "墙上还没有人留下侨批。"
+          : `这一类还没有人写过（${filter}）。`}
         <br />
         要不要做第一个？
       </p>

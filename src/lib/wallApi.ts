@@ -4,7 +4,6 @@
 // 用户也能看到自己写过的信 + 6 封 mock。
 
 import { saveLetter, loadLetters } from "./storage";
-import { MOCK_LETTERS } from "./mockData";
 import type { Letter, LetterTheme } from "./types";
 
 interface SubmitResult {
@@ -90,16 +89,13 @@ export async function loadPublicLetters(opts?: {
     // 静默失败 → 用本地
   }
 
-  // 本地 + mock：永远拼在后面
+  // 只合并：服务端 + 本地用户自己写过的（本人浏览器 localStorage）。
+  // 不再混入 MOCK_LETTERS —— 这是真正的留言墙，所有内容都来自真实用户。
   const local = loadLetters().filter((l) => l.isPublic);
-  const mocks = MOCK_LETTERS;
-
-  // 去重：服务端有的，本地副本不重复
   const seen = new Set(server.map((l) => l.id));
   const merged: Letter[] = [
     ...server,
     ...local.filter((l) => !seen.has(l.id)),
-    ...mocks.filter((l) => !seen.has(l.id)),
   ];
 
   return { letters: merged, serverConfigured };
