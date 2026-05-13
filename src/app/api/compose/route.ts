@@ -78,7 +78,9 @@ export async function POST(req: Request) {
     const composed = await callDeepseekChat({
       messages,
       maxTokens: 700,
-      temperature: 0.9,
+      // 0.75 比 0.9 更接近 few-shot 范例的笔触，
+      // 同时避免 AI 凭空发挥（如自加金额、自加角色）
+      temperature: 0.75,
     });
     if (!composed) {
       return NextResponse.json({ error: "AI 返回为空，请重试。" }, { status: 502 });
