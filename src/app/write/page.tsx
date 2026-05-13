@@ -14,7 +14,8 @@ import {
 } from "@/lib/types";
 import { loadDraft, saveDraft, newId } from "@/lib/storage";
 
-const TONE_KEYS: LetterTone[] = ["modern", "gentle", "restrained", "classical"];
+// 把"旧式家书"放第一位 —— 这是侨批最自然的语气，也是默认选中的那个
+const TONE_KEYS: LetterTone[] = ["classical", "gentle", "restrained", "modern"];
 
 const TONE_PLACEHOLDERS: Record<LetterTone, string> = {
   modern:
@@ -43,7 +44,7 @@ function WriteForm() {
   const [destination, setDestination] = useState("");
   const [body, setBody] = useState("");
   const [signature, setSignature] = useState("");
-  const [tone, setTone] = useState<LetterTone>("gentle");
+  const [tone, setTone] = useState<LetterTone>("classical");
   const [theme, setTheme] = useState<LetterTheme>("想念");
   const [isPublic, setIsPublic] = useState(false);
   const [error, setError] = useState<string | null>(null);
