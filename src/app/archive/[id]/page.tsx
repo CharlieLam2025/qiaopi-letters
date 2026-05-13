@@ -14,6 +14,9 @@ import {
 } from "@/lib/archiveTypes";
 import RedSeal from "@/components/RedSeal";
 
+// Cloudflare Pages 要求所有动态路由跑 edge runtime
+export const runtime = "edge";
+
 export default function ArchiveDetailPage() {
   const params = useParams();
   const id = String(params?.id ?? "");

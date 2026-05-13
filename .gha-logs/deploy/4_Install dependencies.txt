@@ -1,0 +1,39 @@
+﻿2026-05-13T06:23:05.0467637Z ##[group]Run npm ci --legacy-peer-deps
+2026-05-13T06:23:05.0468107Z [36;1mnpm ci --legacy-peer-deps[0m
+2026-05-13T06:23:05.0503249Z shell: /usr/bin/bash -e {0}
+2026-05-13T06:23:05.0503601Z ##[endgroup]
+2026-05-13T06:23:05.7508888Z npm warn EBADENGINE Unsupported engine {
+2026-05-13T06:23:05.7509681Z npm warn EBADENGINE   package: '@cloudflare/kv-asset-handler@0.5.0',
+2026-05-13T06:23:05.7510215Z npm warn EBADENGINE   required: { node: '>=22.0.0' },
+2026-05-13T06:23:05.7510740Z npm warn EBADENGINE   current: { node: 'v20.20.2', npm: '10.8.2' }
+2026-05-13T06:23:05.7511175Z npm warn EBADENGINE }
+2026-05-13T06:23:05.7524523Z npm warn EBADENGINE Unsupported engine {
+2026-05-13T06:23:05.7525566Z npm warn EBADENGINE   package: 'wrangler@4.90.1',
+2026-05-13T06:23:05.7526068Z npm warn EBADENGINE   required: { node: '>=22.0.0' },
+2026-05-13T06:23:05.7526580Z npm warn EBADENGINE   current: { node: 'v20.20.2', npm: '10.8.2' }
+2026-05-13T06:23:05.7526998Z npm warn EBADENGINE }
+2026-05-13T06:23:05.7528548Z npm warn EBADENGINE Unsupported engine {
+2026-05-13T06:23:05.7529294Z npm warn EBADENGINE   package: 'miniflare@4.20260508.0',
+2026-05-13T06:23:05.7529836Z npm warn EBADENGINE   required: { node: '>=22.0.0' },
+2026-05-13T06:23:05.7530329Z npm warn EBADENGINE   current: { node: 'v20.20.2', npm: '10.8.2' }
+2026-05-13T06:23:05.7530710Z npm warn EBADENGINE }
+2026-05-13T06:23:08.5786130Z npm warn deprecated @cloudflare/next-on-pages@1.13.16: Please use the OpenNext adapter instead: https://opennext.js.org/cloudflare
+2026-05-13T06:23:18.3813080Z npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+2026-05-13T06:23:18.8768332Z 
+2026-05-13T06:23:18.8769192Z added 194 packages, and audited 195 packages in 14s
+2026-05-13T06:23:18.8771780Z 
+2026-05-13T06:23:18.8772657Z 37 packages are looking for funding
+2026-05-13T06:23:18.8773579Z   run `npm fund` for details
+2026-05-13T06:23:19.0461792Z 
+2026-05-13T06:23:19.0462812Z 7 vulnerabilities (1 low, 4 moderate, 1 high, 1 critical)
+2026-05-13T06:23:19.0463286Z 
+2026-05-13T06:23:19.0463650Z To address issues that do not require attention, run:
+2026-05-13T06:23:19.0464170Z   npm audit fix
+2026-05-13T06:23:19.0464364Z 
+2026-05-13T06:23:19.0464607Z To address all issues possible, run:
+2026-05-13T06:23:19.0465339Z   npm audit fix --force
+2026-05-13T06:23:19.0465599Z 
+2026-05-13T06:23:19.0465922Z Some issues need review, and may require choosing
+2026-05-13T06:23:19.0466527Z a different dependency.
+2026-05-13T06:23:19.0466801Z 
+2026-05-13T06:23:19.0467007Z Run `npm audit` for details.
