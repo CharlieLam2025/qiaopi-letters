@@ -36,6 +36,14 @@ yarn-error.log*
 # 本地辅助资料（截图、调试浏览器 profile），不进版本库
 .screenshots/
 .chrome-profile/
+.chrome-cf-profile/
+.gha-logs/
+.gha-logs2/
+.gha-logs.zip
+.gha-logs2.zip
+.deploy-state.txt
+.deploy-cmd.txt
+.cf-screenshot.png
 .next/
 
 .vercel
