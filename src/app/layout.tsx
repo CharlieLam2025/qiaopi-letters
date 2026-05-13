@@ -3,6 +3,7 @@ import { Noto_Serif_SC, Ma_Shan_Zheng, ZCOOL_XiaoWei } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import MapWatermark from "@/components/decorations/MapWatermark";
+import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 
 const notoSerifSC = Noto_Serif_SC({
   subsets: ["latin"],
@@ -29,6 +30,30 @@ export const metadata: Metadata = {
   title: "写给远方的一封侨批",
   description:
     "电影《给阿嬷的情书》与侨批文化的线上纪念馆。有些话，当年漂洋过海才送到；今天，我们重新把它写下来。",
+  applicationName: "侨批",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "侨批",
+  },
+  formatDetection: { telephone: false },
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  openGraph: {
+    title: "写给远方的一封侨批",
+    description:
+      "1880—1950 南洋华侨家书的线上纪念馆 + AI 写信工具。仿照那个年代的笔触替你写，邮戳红印的旧信纸可下载。",
+    type: "website",
+    images: ["/icons/icon-512.png"],
+    locale: "zh_CN",
+  },
 };
 
 export const viewport: Viewport = {
@@ -46,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className={`${notoSerifSC.variable} ${maShanZheng.variable} ${zcool.variable}`}>
       <body className="antialiased">
+        <ServiceWorkerRegistration />
         <MapWatermark />
         <Nav />
         <main className="relative z-10">{children}</main>
