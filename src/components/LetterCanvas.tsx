@@ -4,6 +4,8 @@ import { forwardRef } from "react";
 import RedSeal from "./RedSeal";
 import Postmark from "./Postmark";
 import type { Letter, LetterTone } from "@/lib/types";
+import { defaultSignature } from "@/lib/types";
+import { shortHistoricalCity, toHistoricalPlace } from "@/lib/historicalNames";
 
 interface Props {
   letter: Letter;
@@ -17,12 +19,9 @@ const toneStyle: Record<LetterTone, { font: string; letter: string; line: string
   classical: { font: "font-serif", letter: "tracking-wider", line: "leading-[2]" },
 };
 
-// 把 destination 切成 2~4 字的"邮戳"城市
+// 把 destination 切成 2~4 字的"邮戳"城市（同时转成历史名）
 function postmarkCity(dest: string): string {
-  const cleaned = dest.replace(/[省市县区]/g, "").trim();
-  const parts = cleaned.split(/\s+/);
-  const last = parts[parts.length - 1] || "侨乡";
-  return last.slice(0, 4);
+  return shortHistoricalCity(dest);
 }
 
 // 让日期看起来像 1948.03.12 风格（保留真实年份）
@@ -141,10 +140,10 @@ const LetterCanvas = forwardRef<HTMLDivElement, Props>(function LetterCanvas(
       >
         <div style={{ fontSize: 13, color: "#5c4631", lineHeight: 1.8 }}>
           <div style={{ letterSpacing: "0.2em", marginBottom: 4 }}>
-            寄自 · {letter.from}
+            寄自 · {toHistoricalPlace(letter.from)}
           </div>
           <div style={{ letterSpacing: "0.2em" }}>
-            发往 · {letter.destination}
+            发往 · {toHistoricalPlace(letter.destination)}
           </div>
         </div>
         <Postmark
@@ -184,7 +183,7 @@ const LetterCanvas = forwardRef<HTMLDivElement, Props>(function LetterCanvas(
         {letter.body}
       </div>
 
-      {/* 落款区 */}
+      {/* 落款区（署名 + 日期 + 红印章）*/}
       <div
         style={{
           marginTop: 48,
@@ -196,10 +195,22 @@ const LetterCanvas = forwardRef<HTMLDivElement, Props>(function LetterCanvas(
         }}
       >
         <div style={{ textAlign: "right", fontSize: 14, lineHeight: 2, color: "#5c4631" }}>
-          <div style={{ fontSize: 18, color: "#2a1c10", marginBottom: 6 }}>
-            {letter.tone === "classical" ? "敬上" : "—— 一个想念你的人"}
+          <div
+            style={{
+              fontSize: 22,
+              color: "#1a1208",
+              marginBottom: 8,
+              letterSpacing: "0.18em",
+              fontWeight: 600,
+            }}
+          >
+            {(letter.signature && letter.signature.trim()) ||
+              defaultSignature({ tone: letter.tone, to: letter.to })}
           </div>
-          <div>{formatBodyDate(letter.createdAt)}</div>
+          <div style={{ fontSize: 15, color: "#3a2818" }}>
+            于 {toHistoricalPlace(letter.from || "远方")}
+          </div>
+          <div style={{ marginTop: 2 }}>{formatBodyDate(letter.createdAt)}</div>
           <div style={{ fontSize: 12, color: "#80684a", marginTop: 4 }}>
             主题：{letter.theme}
           </div>

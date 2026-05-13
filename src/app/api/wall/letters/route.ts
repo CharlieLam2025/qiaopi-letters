@@ -42,7 +42,7 @@ export async function GET(req: Request) {
 
   let q = supabaseServer
     .from(TABLE)
-    .select("id, to_field, from_field, destination, body, tone, theme, created_at")
+    .select("id, to_field, from_field, destination, body, signature, tone, theme, created_at")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -60,6 +60,7 @@ export async function GET(req: Request) {
     from: r.from_field,
     destination: r.destination,
     body: r.body,
+    signature: r.signature ?? undefined,
     tone: r.tone,
     theme: r.theme,
     isPublic: true,
@@ -103,6 +104,7 @@ export async function POST(req: Request) {
   const from = String(body?.from ?? "").trim().slice(0, 60);
   const destination = String(body?.destination ?? "").trim().slice(0, 60);
   const bodyText = String(body?.body ?? "").trim();
+  const signature = String(body?.signature ?? "").trim().slice(0, 40);
   const tone = body?.tone as LetterTone;
   const theme = body?.theme as LetterTheme;
 
@@ -120,6 +122,7 @@ export async function POST(req: Request) {
     from_field: from || "远方",
     destination: destination || "故乡",
     body: bodyText,
+    signature: signature || null,
     tone,
     theme,
   };
@@ -140,12 +143,16 @@ export async function POST(req: Request) {
 
   const letter: Letter = {
     id: data.id,
-    ...insertRow,
     to: insertRow.to_field,
     from: insertRow.from_field,
+    destination: insertRow.destination,
+    body: insertRow.body,
+    signature: insertRow.signature ?? undefined,
+    tone: insertRow.tone,
+    theme: insertRow.theme,
     isPublic: true,
     createdAt: data.created_at,
-  } as Letter;
+  };
 
   return NextResponse.json({ ok: true, letter });
 }

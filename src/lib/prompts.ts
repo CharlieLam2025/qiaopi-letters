@@ -6,6 +6,7 @@
 // 让 LLM 模仿具体的"信"的样子，而不是被教导该用哪些熟语。
 
 import type { LetterTone, LetterTheme } from "./types";
+import { toHistoricalPlace } from "./historicalNames";
 
 // ────────────────────────────────────────────────
 // few-shot 范例库（节选自 archiveMock 的 transcription，但与之独立维护）
@@ -381,11 +382,19 @@ export function buildComposeMessages(
     ? `请按上述语气改写下面这段话，保留它原本想说的意思，但调整为对应年代和笔触的"信"。`
     : `用户暂时没写正文，请你按上述语气替他/她拟一封短信。`;
 
+  // 传给 LLM 的地名换成那个年代的叫法 ——
+  // 比如用户写 "新加坡 牛车水"，LLM 看到的是 "叻埠 牛车水"，
+  // 这样 AI 写出的句子才会自然出现 "儿在叻地寝食皆安" 这种用语。
+  const fromHist = toHistoricalPlace(input.from || "");
+  const destHist = toHistoricalPlace(input.destination || "");
+
   const userMsg = `【收信人】${input.to || "（未填）"}
-【寄出地】${input.from || "（未填）"}
-【寄往】${input.destination || "（未填）"}
+【寄出地】${fromHist || "（未填）"}
+【寄往】${destHist || "（未填）"}
 【主题】${input.theme}
 ${hasDraft ? `【用户草稿】\n${input.body.trim()}\n` : "【用户草稿】（空）"}
+
+注：以上"寄出地""寄往"已按那个年代的叫法呈现（如"叻埠"="新加坡"、"巴城"="雅加达"、"宝安"="深圳"），写作时尽量沿用旧名。
 
 ${userInstruction}
 请只返回信件正文文字本身，第一行是称呼，结尾不要署名。`;

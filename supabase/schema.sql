@@ -12,6 +12,7 @@ create table if not exists public.public_letters (
   from_field    text not null check (length(from_field) between 0 and 60),
   destination   text not null check (length(destination) between 0 and 60),
   body          text not null check (length(body) between 1 and 2000),
+  signature     text,
   tone          text not null check (tone in ('modern','gentle','restrained','classical')),
   theme         text not null check (theme in ('想念','感谢','亏欠','告别','报平安')),
   created_at    timestamptz not null default now(),
@@ -19,6 +20,8 @@ create table if not exists public.public_letters (
   ip_hash       text,
   flagged       boolean not null default false
 );
+-- 已存在的项目：补充 signature 列（幂等）
+alter table public.public_letters add column if not exists signature text;
 
 create index if not exists public_letters_created_at_idx
   on public.public_letters (created_at desc);

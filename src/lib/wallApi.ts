@@ -28,6 +28,7 @@ export async function submitPublicLetter(letter: Letter): Promise<SubmitResult> 
         from: letter.from,
         destination: letter.destination,
         body: letter.body,
+        signature: letter.signature,
         tone: letter.tone,
         theme: letter.theme,
       }),

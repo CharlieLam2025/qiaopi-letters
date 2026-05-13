@@ -7,6 +7,7 @@ import {
   TONE_LABELS,
   TONE_HINTS,
   THEMES,
+  defaultSignature,
   type Letter,
   type LetterTone,
   type LetterTheme,
@@ -41,6 +42,7 @@ function WriteForm() {
   const [from, setFrom] = useState("");
   const [destination, setDestination] = useState("");
   const [body, setBody] = useState("");
+  const [signature, setSignature] = useState("");
   const [tone, setTone] = useState<LetterTone>("gentle");
   const [theme, setTheme] = useState<LetterTheme>("想念");
   const [isPublic, setIsPublic] = useState(false);
@@ -67,6 +69,7 @@ function WriteForm() {
     // 重要：从原件库跳来时，正文应该是空白的（让用户重新写）；
     // 但保留 from/destination 这类位置信息（可能是用户日常的住地）
     if (!fromArchive && d?.body) setBody(d.body);
+    if (!fromArchive && d?.signature) setSignature(d.signature);
 
     if (qTone && TONE_KEYS.includes(qTone)) setTone(qTone);
     else if (d?.tone) setTone(d.tone);
@@ -88,10 +91,10 @@ function WriteForm() {
   // 自动保存草稿（节流：300ms 后）
   useEffect(() => {
     const t = setTimeout(() => {
-      saveDraft({ to, from, destination, body, tone, theme, isPublic });
+      saveDraft({ to, from, destination, body, signature, tone, theme, isPublic });
     }, 300);
     return () => clearTimeout(t);
-  }, [to, from, destination, body, tone, theme, isPublic]);
+  }, [to, from, destination, body, signature, tone, theme, isPublic]);
 
   // 让 DeepSeek 帮忙润色 / 代写
   async function handleAiCompose() {
@@ -148,6 +151,7 @@ function WriteForm() {
       from: from.trim() || "远方",
       destination: destination.trim() || "故乡",
       body: body.trim(),
+      signature: signature.trim() || undefined,
       tone,
       theme,
       isPublic,
@@ -326,6 +330,19 @@ function WriteForm() {
                 </button>
               ))}
             </div>
+          </Field>
+
+          <Field
+            label="署名"
+            hint={`留空就用建议默认：「${defaultSignature({ tone, to })}」。也可以写自己的：如「儿 阿成 谨上」「孙 敬贤 拜上」`}
+          >
+            <input
+              className="field-input"
+              value={signature}
+              onChange={(e) => setSignature(e.target.value)}
+              placeholder={defaultSignature({ tone, to })}
+              maxLength={24}
+            />
           </Field>
 
           <Field label="是否匿名公开">
