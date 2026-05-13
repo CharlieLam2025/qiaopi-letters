@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper-bg: #ecdfbf;
+  }
+
+  html,
+  body {
+    background: #ecdfbf;
+    color: #3a2818;
+    font-family: var(--font-noto-serif-sc), Georgia, "Times New Roman", serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(160,120,70,0.07), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(120,80,40,0.06), transparent 70%),
+      linear-gradient(180deg, #f0e3c2 0%, #e8dbb6 100%);
+    min-height: 100vh;
+  }
+
+  /* 全局选区颜色 */
+  ::selection {
+    background: rgba(139, 44, 44, 0.25);
+    color: #2a1c10;
+  }
+
+  /* 滚动条（细，旧木色） */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(92, 70, 49, 0.3);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(92, 70, 49, 0.5);
+  }
+}
+
+@layer components {
+  /* 主按钮：旧式按钮，深棕底/暗红轮廓 */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 font-serif tracking-widest
+           bg-ink-500 text-paper-100 border border-ink-500
+           hover:bg-ink-400 transition-colors
+           rounded-none;
+  }
+
+  /* 次按钮：透明 + 深棕描边 */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 font-serif tracking-widest
+           bg-transparent text-ink-500 border border-ink-500/60
+           hover:bg-ink-500/5 transition-colors
+           rounded-none;
+  }
+
+  /* 暗红描边按钮（用于关键提交） */
+  .btn-seal {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 font-serif tracking-widest
+           bg-seal-500 text-paper-100 border border-seal-500
+           hover:bg-seal-600 transition-colors
+           rounded-none;
+  }
+
+  /* 复古表单输入 */
+  .field-label {
+    @apply block font-serif text-ink-400 text-sm tracking-widest mb-2;
+  }
+  .field-input,
+  .field-textarea {
+    @apply w-full bg-transparent border-b border-ink-300/60
+           focus:border-seal-500 focus:outline-none
+           text-ink-500 font-serif text-base sm:text-lg
+           leading-relaxed
+           py-2 transition-colors;
+  }
+  .field-textarea {
+    @apply border-b-0 border border-ink-300/40 rounded-none p-4
+           bg-paper-100/40 focus:border-seal-500;
+  }
+
+  /* 旧式分隔符 ❀✿※ */
+  .ornament-divider {
+    @apply flex items-center gap-4 text-ink-300 my-12;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    @apply h-px flex-1 bg-ink-300/40;
+  }
+}
+
+/* 慢速浮动 */
+@keyframes drift {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.drift {
+  animation: drift 6s ease-in-out infinite;
+}
+
+/* html2canvas 安全字体提示：让导出 PNG 用同一字体栈 */
+.png-target * {
+  font-family: var(--font-noto-serif-sc), Georgia, serif !important;
+}
