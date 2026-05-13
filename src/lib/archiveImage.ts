@@ -459,12 +459,10 @@ export function buildQiaopiSvg(
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${defsBlock()}${paperBg(W, H, rand)}${body}</svg>`;
 }
 
-// 把 SVG 字符串编为 data URL —— 同时兼容浏览器与 SSR 环境
+// 把 SVG 字符串编为 data URL —— 兼容浏览器 / Node SSR / Cloudflare Workers 三种 runtime
+// 统一走 btoa（CF Workers Edge runtime 没有 Buffer 全局变量）。
+// unescape(encodeURIComponent(...)) 是经典的 UTF-8 → binary string idiom，所有 runtime 都支持。
 export function svgToDataUrl(svg: string): string {
-  if (typeof window === "undefined") {
-    return `data:image/svg+xml;base64,${Buffer.from(svg, "utf-8").toString("base64")}`;
-  }
-  // 浏览器：UTF-8 → percent-encoded → btoa
   return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
 }
 

@@ -1,0 +1,5 @@
+name = "qiaopi-letters"
+compatibility_date = "2025-01-01"
+# Workers 中开启 Node.js 兼容子集（允许部分 Node API），降低适配成本
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"

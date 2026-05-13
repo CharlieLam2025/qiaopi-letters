@@ -16,7 +16,8 @@ import { THEMES, type Letter, type LetterTheme, type LetterTone } from "@/lib/ty
 
 const TABLE = "public_letters";
 
-export const runtime = "nodejs";
+// Edge runtime：兼容 Cloudflare Workers + Vercel Edge
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 const TONE_KEYS: LetterTone[] = ["modern", "gentle", "restrained", "classical"];

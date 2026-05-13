@@ -16,7 +16,9 @@ import { THEMES, type LetterTheme, type LetterTone } from "@/lib/types";
 
 const TONE_KEYS: LetterTone[] = ["modern", "gentle", "restrained", "classical"];
 
-export const runtime = "nodejs"; // 用 node runtime 才能稳定读 env
+// 跑在 Edge runtime —— 让 Cloudflare Pages / Vercel Edge 都能跑。
+// Cloudflare Workers 不支持 Node.js runtime；Vercel Edge 也兼容。
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 const MAX_INPUT_CHARS = 800;
