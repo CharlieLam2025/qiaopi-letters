@@ -37,3 +37,5 @@ yarn-error.log*
 .screenshots/
 .chrome-profile/
 .next/
+
+.vercel

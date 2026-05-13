@@ -55,6 +55,10 @@ export default function RootLayout({
               所有信件均为用户匿名创作，本站不存储任何真实身份信息。
             </span>
           </p>
+          <p className="mt-6 font-serif text-ink-300/70 text-[11px] tracking-[0.4em]">
+            <span className="opacity-70">made by</span>{" "}
+            <span className="text-ink-400">charlielam</span>
+          </p>
         </footer>
       </body>
     </html>
