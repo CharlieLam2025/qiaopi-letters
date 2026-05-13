@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Noto_Serif_SC, Ma_Shan_Zheng, ZCOOL_XiaoWei } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import MapWatermark from "@/components/decorations/MapWatermark";
 
 const notoSerifSC = Noto_Serif_SC({
   subsets: ["latin"],
@@ -45,9 +46,10 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className={`${notoSerifSC.variable} ${maShanZheng.variable} ${zcool.variable}`}>
       <body className="antialiased">
+        <MapWatermark />
         <Nav />
-        <main>{children}</main>
-        <footer className="border-t border-ink-300/20 mt-24 py-10 px-4 text-center">
+        <main className="relative z-10">{children}</main>
+        <footer className="relative z-10 border-t border-ink-300/20 mt-24 py-10 px-4 text-center">
           <p className="font-serif text-ink-300 text-sm tracking-wider leading-loose">
             一座临时的线上纪念馆 · 为侨批，也为今天还在远方的人
             <br />

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { THEMES, type Letter, type LetterTheme } from "@/lib/types";
 import { loadPublicLetters } from "@/lib/wallApi";
 import RedSeal from "@/components/RedSeal";
+import Pushpin from "@/components/decorations/Pushpin";
 
 type Filter = "全部" | LetterTheme;
 const FILTERS: Filter[] = ["全部", ...THEMES];
@@ -137,6 +138,16 @@ function Card({ letter, onClick }: { letter: Letter; onClick: () => void }) {
     2,
     "0"
   )}.${String(date.getDate()).padStart(2, "0")}`;
+  // 用 letter.id 派生一个稳定的倾斜角度（-2° ~ 2°），让卡片像随手贴的便条
+  const tilt =
+    ((letter.id.charCodeAt(letter.id.length - 1) % 7) - 3) * 0.5;
+  // 图钉颜色按主题选
+  const pinColor: "brass" | "red" | "ink" =
+    letter.theme === "想念" || letter.theme === "告别"
+      ? "red"
+      : letter.theme === "亏欠"
+      ? "ink"
+      : "brass";
   return (
     <motion.button
       initial={{ opacity: 0, y: 16 }}
@@ -146,14 +157,19 @@ function Card({ letter, onClick }: { letter: Letter; onClick: () => void }) {
       onClick={onClick}
       type="button"
       className="block w-full text-left mb-5 break-inside-avoid group relative"
+      style={{ transform: `rotate(${tilt}deg)` }}
     >
+      {/* 图钉：让卡片"贴在墙上" */}
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+        <Pushpin size={22} color={pinColor} />
+      </div>
       <div
-        className="relative px-5 py-6 sm:px-6 sm:py-7 border border-ink-300/30 group-hover:border-ink-400/60 transition-colors"
+        className="relative px-5 py-6 sm:px-6 sm:py-7 pt-8 border border-ink-300/30 group-hover:border-ink-400/60 transition-colors"
         style={{
           background:
             "linear-gradient(180deg, #f3e8ce 0%, #e8dbb6 100%)",
           boxShadow:
-            "inset 0 0 50px rgba(80,50,20,0.12), 0 8px 20px -10px rgba(40,25,10,0.3)",
+            "inset 0 0 50px rgba(80,50,20,0.12), 0 10px 24px -10px rgba(40,25,10,0.45)",
         }}
       >
         {/* 主题小标 */}

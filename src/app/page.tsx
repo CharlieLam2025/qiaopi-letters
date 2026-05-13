@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import RedSeal from "@/components/RedSeal";
 import Postmark from "@/components/Postmark";
 import FoldedLetter from "@/components/FoldedLetter";
+import RedHeadShip from "@/components/decorations/RedHeadShip";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -134,8 +135,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 衔接装饰：一艘红头船向左漂 */}
+      <section className="relative -mt-4 sm:-mt-12 pb-10 sm:pb-20 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 0.85, x: 0 }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          transition={{ duration: 2.4, ease: [0.4, 0, 0.2, 1] }}
+          className="mx-auto max-w-3xl drift"
+        >
+          <div className="flex justify-end pr-4 sm:pr-12">
+            <RedHeadShip width={220} className="opacity-90" />
+          </div>
+          <div className="text-center text-ink-300 text-[11px] sm:text-xs tracking-[0.4em] font-serif mt-2">
+            ※ 红 头 船 · 一 个 月 才 到 南 洋 ※
+          </div>
+        </motion.div>
+      </section>
+
       {/* 第二屏：三句引言 */}
-      <section className="px-4 py-24 sm:py-32">
+      <section className="px-4 py-16 sm:py-24">
         <div className="mx-auto max-w-2xl space-y-20">
           {[
             {

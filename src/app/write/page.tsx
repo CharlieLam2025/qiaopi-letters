@@ -250,11 +250,21 @@ function WriteForm() {
 
           <Field label="想说的话" hint="可以分段。短一点也没关系，一句也是一封信。">
             <textarea
-              className="field-textarea min-h-[220px] leading-[2.1]"
+              className="field-textarea min-h-[260px] leading-[2.2]"
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder={TONE_PLACEHOLDERS[tone]}
               maxLength={1200}
+              style={{
+                // 朱丝栏：旧时信纸的竖向淡红细线
+                backgroundImage:
+                  "repeating-linear-gradient(90deg, transparent 0, transparent 39px, rgba(139,44,44,0.12) 40px, transparent 41px), " +
+                  // 红色边线（左右各一条粗一点的）
+                  "linear-gradient(90deg, rgba(139,44,44,0.18) 1px, transparent 1px), " +
+                  "linear-gradient(270deg, rgba(139,44,44,0.18) 1px, transparent 1px)",
+                backgroundPosition: "0 0, 0 0, 100% 0",
+                backgroundRepeat: "repeat, no-repeat, no-repeat",
+              }}
             />
             {/* AI 写信助手 */}
             <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">

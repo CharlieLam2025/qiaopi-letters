@@ -61,5 +61,6 @@ create table if not exists public.qiaopi_items (
 
 alter table public.qiaopi_items enable row level security;
 -- 原件库是公开档案，任何人都可读
-create policy if not exists "qiaopi_items public read" on public.qiaopi_items
+drop policy if exists "qiaopi_items public read" on public.qiaopi_items;
+create policy "qiaopi_items public read" on public.qiaopi_items
   for select to anon, authenticated using (true);

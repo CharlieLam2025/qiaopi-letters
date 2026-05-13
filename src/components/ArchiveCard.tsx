@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { resolveImageUrl } from "@/lib/archiveImage";
 import type { QiaopiItem } from "@/lib/archiveTypes";
+import CornerStamp from "./decorations/CornerStamp";
 
 interface Props {
   item: QiaopiItem;
@@ -32,8 +33,18 @@ export default function ArchiveCard({ item }: Props) {
     >
       <Link
         href={`/archive/${item.id}`}
-        className="group block border border-ink-300/30 hover:border-ink-400/70 bg-paper-100/40 transition-colors"
+        className="group relative block border border-ink-300/30 hover:border-ink-400/70 bg-paper-100/40 transition-colors shadow-[0_2px_8px_-4px_rgba(40,25,10,0.18)] hover:shadow-[0_10px_22px_-12px_rgba(40,25,10,0.45)]"
       >
+        {/* 右上贴角邮票 —— 给"档案盒标签"质感 */}
+        <div className="absolute -top-2 -right-2 z-20 drop-shadow-[0_3px_4px_rgba(40,25,10,0.35)]">
+          <CornerStamp
+            size={44}
+            text={item.themes[0]?.slice(0, 1) || "侨"}
+            red={item.themes[0] === "想念" || item.themes[0] === "告别"}
+            rotate={item.id.charCodeAt(item.id.length - 1) % 2 === 0 ? -8 : 6}
+          />
+        </div>
+
         {/* 缩略图区 —— 像档案盒上的小窗 */}
         <div className="relative aspect-[3/4] overflow-hidden bg-paper-200/30 border-b border-ink-300/30">
           {/* eslint-disable-next-line @next/next/no-img-element */}
